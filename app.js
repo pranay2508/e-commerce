@@ -12,6 +12,10 @@ const productsDOM = document.querySelector(".products-center");
 
 //cart item in an array
 
+
+
+
+
 let cart = [];
 
 // for getting the products first locally then dynamically
@@ -39,12 +43,15 @@ class Products {
 }
 
 // display products
+
+// from aniket
 class UI {
     displayProducts(products){
         let result = '';
-        console.log(products);
+        // console.log(products);
        products.forEach(product => {
         // template literals => (``)
+        //Template literals are literals delimited with backtick ( ` ) characters, allowing for multi-line strings, string interpolation with embedded expressions, and special constructs called tagged templates
         result += `
         <article class="product">
         <div class="img-container">
@@ -66,19 +73,136 @@ class UI {
        productsDOM.innerHTML = result;
 
     }
+    getBagButtons(){ 
+        const buttons = [...document.querySelectorAll(".bag-btn")];
+        console.log(buttons);
+
+    }
 }
 
 //local storage
 
-class Storage {}
+class Storage {
+    static saveProducts(products){
+        localStorage.setItem("products", JSON.stringify(products)
+        );
+    }
+
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const ui = new UI();
   const products = new Products();
 
   // get all products
-  products.getProducts().then( products => ui.displayProducts(products))
+  products.getProducts().then(products => {
+    ui.displayProducts(products);
+    Storage.saveProducts(products);
+  }).then(()=>{
+    ui.getBagButtons();
+  });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // async promise concept at 1:24:00 back some minutes
 
