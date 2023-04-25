@@ -8,7 +8,7 @@ const cartOverlay = document.querySelector(".cart-overlay");
 const cartItems = document.querySelector(".cart-items");
 const cartTotal = document.querySelector(".cart-total");
 const cartContent = document.querySelector(".cart-content");
-const productsDOM = document.querySelector(".product-center");
+const productsDOM = document.querySelector(".products-center");
 
 //cart item in an array
 
@@ -19,21 +19,21 @@ class Products {
   async getProducts() {
     try {
       // use of async and await
-      let result = await fetch("products.json");
+      let result = await fetch("products.json")
       let data = await result.json();
       let products = data.items;
       // products is holding the array
       products = products.map((item) => {
         //all this .map method will itterate through the json and find the respective values
         // which are title , price , id , image
-        const { title, price } = item.fields;
-        const { id } = item.sys;
+        const {title, price} = item.fields;
+        const {id} = item.sys;
         const image = item.fields.image.fields.file.url;
-        return { title, price, id, image };
+        return {title, price, id, image};
       });
       return products;
     } catch (error) {
-      console.log(error);
+      console.log(error);    
     }
   }
 }
@@ -41,7 +41,29 @@ class Products {
 // display products
 class UI {
     displayProducts(products){
+        let result = '';
         console.log(products);
+       products.forEach(product => {
+        // template literals => (``)
+        result += `
+        <article class="product">
+        <div class="img-container">
+          <img
+            src=${product.image}
+            alt="product"
+            class="product-img"
+          />
+          <button class="bag-btn" data-id=${product.id}>
+            <i class="fas fa-shopping-cart"></i>
+            add to bag
+          </button>
+        </div>
+        <h3>${product.title}</h3>
+        <h4>$${product.price}</h4>
+      </article>
+        `;
+       });
+       productsDOM.innerHTML = result;
 
     }
 }
@@ -63,4 +85,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// starrt from 1:40:15 
