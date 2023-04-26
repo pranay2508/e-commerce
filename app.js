@@ -18,6 +18,9 @@ const productsDOM = document.querySelector(".products-center");
 
 let cart = [];
 
+// buttons
+let buttonsDOM =[];
+
 // for getting the products first locally then dynamically
 class Products {
   async getProducts() {
@@ -75,10 +78,29 @@ class UI {
     }
     getBagButtons(){ 
         const buttons = [...document.querySelectorAll(".bag-btn")];
+        buttonsDOM = buttons;
         buttons.forEach(button =>{
             let id = button.dataset.id;
-            console.log(id);
-        })
+            let inCart = cart.find(item => item.id === id);
+            if(inCart){
+                button.innerText ="In Cart";
+                button.diable = true
+            }
+            
+                button.addEventListener('click',(event)=>{
+                    event.target.innerText ="In Cart";
+                    event.target.diabled = true ;
+                    // get products from products 
+                    let cartItem = Storage.getProduct(id);
+                    console.log(cartItem);
+                    // add products to the cart 
+                    // save cart in local storage 
+                    // set cart values 
+                    // display cart items 
+                    // show the cart 
+                })
+            
+        });
 
     }
 }
@@ -89,6 +111,11 @@ class Storage {
     static saveProducts(products){
         localStorage.setItem("products", JSON.stringify(products)
         );
+    }
+    static getProduct(id){
+        // use of JSON is to exchange data to/from a web server. When receiving data from a web server, the data is always a string. Parse the data with JSON.parse() , and the data becomes a JavaScript object.
+        let products =JSON.parse(localStorage.getItem('products'));
+        return products.find(products => products.id === id);
     }
 
 }
