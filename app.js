@@ -161,22 +161,26 @@ class UI {
 
     let cartItems = cart.map(item => item.id);
     cartItems.forEach(id => this.removeItem(id));
+    console.log(cartContent.children);
+
     while(cartContent.children.length>0){
+      cartContent.removeChild(cartContent.children[0])
       
     }
+    this.hideCart();
   }
   removeItem(id){
-    cart = cart.filter(item => item.id !== id);
+    cart = cart.filter(item => item.id!== id);
     this.setCartValues(cart);
     Storage.saveCart(cart);
     // line 170 will help to locate the button which is used to add the item in the cart 
     let button = this.getSingleButton(id);
     button.disabled = false;
-    button.innerHTML='<i class="fas fa-shopping-cart></i>add to cart';
+    button.innerHTML=`<i class="fas fa-shopping-cart"></i>add to cart`;
   }
 
   getSingleButton(id){
-    return buttonsDOM.find(button => button.dataset.id)
+    return buttonsDOM.find(button => button.dataset.id === id);
   }
 }
 
